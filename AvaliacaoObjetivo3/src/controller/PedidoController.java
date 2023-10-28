@@ -4,6 +4,7 @@ import model.*;
 import model.Item;
 import model.Pedido;
 import model.Produto;
+import exceptions.EstoqueInsuficienteException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +32,13 @@ public class PedidoController {
 
         List<Pedido> vendas = new ArrayList<>();
 
+        try {
+            realizarVenda(pedido1, item1, produto1, 5);
+            realizarVenda(pedido2, item2, produto2, 5);
+        } catch (EstoqueInsuficienteException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
+
         vendas.add(pedido1);
         vendas.add(pedido2);
 
@@ -53,10 +61,11 @@ public class PedidoController {
             System.out.println("Produto: " + produto2.getNome() + " - Estoque: " + produto2.getQuantidade());
         }
 
+
         Fornecedor f1 = new Fornecedor(123, "981122547", "Jurandir");
 
         Fornecimento fn1 = new Fornecimento(data, 1000.00, f1, produto1);
-        Fornecimento fn2 = new Fornecimento(data,800.0, f1, produto2);
+        Fornecimento fn2 = new Fornecimento(data, 800.0, f1, produto2);
 
         List<Fornecimento> fornecimentos = new ArrayList<>();
         fornecimentos.add(fn1);
@@ -64,17 +73,24 @@ public class PedidoController {
 
         System.out.println("Relatório Fornecimentos: ");
         double custoTotalFornecimento = 0;
-        for (Fornecimento fornecimento : fornecimentos){
+        for (Fornecimento fornecimento : fornecimentos) {
             Produto produto = fornecimento.getProduto();
-            System.out.println("Fornecedor: "+ fornecimento.getFornecedor().getNome());
+            System.out.println("Fornecedor: " + fornecimento.getFornecedor().getNome());
             System.out.println("Produto " + produto.getNome());
             System.out.println("Data do Fornecimento " + fornecimento.getData());
-            System.out.println("Valor total do Fornecimento: "+ fornecimento.getValorTotal());
+            System.out.println("Valor total do Fornecimento: " + fornecimento.getValorTotal());
 
             custoTotalFornecimento += fornecimento.getValorTotal();
         }
 
         System.out.println("Valor Total dos Fornecimentos: " + custoTotalFornecimento);
-        }
     }
+
+    public static void realizarVenda(Pedido pedido, Item item, Produto produto, int quantidadeVendida) throws EstoqueInsuficienteException {
+        if (quantidadeVendida > produto.getQuantidade()) {
+            throw new EstoqueInsuficienteException();
+        }
+
+    }
+}
 
