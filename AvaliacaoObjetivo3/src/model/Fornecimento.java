@@ -40,6 +40,13 @@ public class Fornecimento {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
+
+    public Fornecimento(Date data, double valorTotal, Fornecedor fornecedor, Produto produto) {
+        this.data = data;
+        this.valorTotal = valorTotal;
+        this.fornecedor = fornecedor;
+        this.produto = produto;
+    }
 }
 
 

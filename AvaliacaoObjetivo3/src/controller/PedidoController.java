@@ -46,12 +46,35 @@ public class PedidoController {
                 Produto produto = item.getProduto();
                 System.out.println("  - Produto: " + produto.getNome() + " - Quantidade: " + item.getQuantidade() + " - Total: R$" + item.calcularTotal());
             }
-            //System.out.println("Total do Pedido: R$" + item.calcularTotal());
+
 
             System.out.println("\nEstoque de Produtos Após as Vendas:");
             System.out.println("Produto: " + produto1.getNome() + " - Estoque: " + produto1.getQuantidade());
             System.out.println("Produto: " + produto2.getNome() + " - Estoque: " + produto2.getQuantidade());
         }
+
+        Fornecedor f1 = new Fornecedor(123, "981122547", "Jurandir");
+
+        Fornecimento fn1 = new Fornecimento(data, 1000.00, f1, produto1);
+        Fornecimento fn2 = new Fornecimento(data,800.0, f1, produto2);
+
+        List<Fornecimento> fornecimentos = new ArrayList<>();
+        fornecimentos.add(fn1);
+        fornecimentos.add(fn2);
+
+        System.out.println("Relatório Fornecimentos: ");
+        double custoTotalFornecimento = 0;
+        for (Fornecimento fornecimento : fornecimentos){
+            Produto produto = fornecimento.getProduto();
+            System.out.println("Fornecedor: "+ fornecimento.getFornecedor().getNome());
+            System.out.println("Produto " + produto.getNome());
+            System.out.println("Data do Fornecimento " + fornecimento.getData());
+            System.out.println("Valor total do Fornecimento: "+ fornecimento.getValorTotal());
+
+            custoTotalFornecimento += fornecimento.getValorTotal();
+        }
+
+        System.out.println("Valor Total dos Fornecimentos: " + custoTotalFornecimento);
         }
     }
 
